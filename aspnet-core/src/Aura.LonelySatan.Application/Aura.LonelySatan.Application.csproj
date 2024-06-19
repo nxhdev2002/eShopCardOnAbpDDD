@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Aura.LonelySatan</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aura.LonelySatan.Domain\Aura.LonelySatan.Domain.csproj" />
+    <ProjectReference Include="..\Aura.LonelySatan.Application.Contracts\Aura.LonelySatan.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Volo.Abp.Account.Application" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="8.1.4" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="8.1.4" />
+  </ItemGroup>
+
+</Project>
