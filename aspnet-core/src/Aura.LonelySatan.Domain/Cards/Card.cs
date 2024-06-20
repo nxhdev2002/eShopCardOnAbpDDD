@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Guids;
 
 namespace Aura.LonelySatan.Cards
 {
@@ -21,7 +22,7 @@ namespace Aura.LonelySatan.Cards
 
         private Card() { }
 
-        internal Card(string cardNumber, DateTime expDate, Cvv cvv)
+        internal Card(Guid Id, string cardNumber, DateTime expDate, Cvv cvv) : base(Id)
         {
             CardNumber = Check.NotNullOrEmpty(cardNumber, nameof(cardNumber));
             ExpDate = expDate;
@@ -31,9 +32,9 @@ namespace Aura.LonelySatan.Cards
             Transactions = new List<CardTransaction>();
         }
 
-        public Card AddCardTransaction(Guid id, Guid cardId, string type, string merchant, CardTransactionStatus status, decimal amount, string transId, string currency)
+        public Card AddCardTransaction(Guid id, Guid cardId, string type, string merchant, CardTransactionStatus status, decimal amount, string currency)
         {
-            var cardTrans = new CardTransaction(id, cardId, type, merchant, status, amount, transId, currency);
+            var cardTrans = new CardTransaction(id, cardId, type, merchant, status, amount, currency);
             Transactions.Add(cardTrans);
 
             return this;
@@ -41,12 +42,22 @@ namespace Aura.LonelySatan.Cards
 
         public Card SetCardAsActive()
         {
+            if (Status == CardStatus.Active)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardAlreadyActive);
+            }
+
             Status = CardStatus.Active;
             return this;
         }
 
         public Card SetCardAsInActive()
         {
+            if (Status == CardStatus.Inactive)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardAlreadyInactive);
+            }
+
             Status = CardStatus.Inactive;
             return this;
         }
@@ -63,7 +74,21 @@ namespace Aura.LonelySatan.Cards
                 throw new BusinessException(LonelySatanDomainErrorCodes.CardIsInActive);
             }
 
+            if (ExpDate < DateTime.UtcNow)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardIsExpired);
+            }
+
             Balance += Amount;
+            AddCardTransaction(
+                Guid.NewGuid(),
+                Id,
+                "Funding",
+                "Banking",
+                CardTransactionStatus.Accepted,
+                Amount,
+                "USD"
+            );
             return this;
         }
 
@@ -79,7 +104,26 @@ namespace Aura.LonelySatan.Cards
                 throw new BusinessException(LonelySatanDomainErrorCodes.CardIsInActive);
             }
 
-            Balance += Amount;
+            if (ExpDate < DateTime.UtcNow)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardIsExpired);
+            }
+
+            if (Balance < Amount)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.InsufficientFundingAmount);
+            }
+            Balance -= Amount;
+
+            AddCardTransaction(
+                Guid.NewGuid(),
+                Id,
+                "Spending",
+                "Banking",
+                CardTransactionStatus.Accepted,
+                Amount,
+                "USD"
+            );
             return this;
         }
 
