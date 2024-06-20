@@ -30,5 +30,12 @@ namespace Aura.LonelySatan.Cards
 
             return placedCard;
         }
+
+        public async Task FundingCardAsync(Card card, decimal Amount)
+        {
+            card.FundingCard(Amount);
+
+            await _cardRepository.UpdateAsync(card, true);
+        }
     }
 }

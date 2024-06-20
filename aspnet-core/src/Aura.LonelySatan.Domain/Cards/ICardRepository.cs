@@ -11,16 +11,13 @@ namespace Aura.LonelySatan.Cards
     {
         Task<List<Card>> GetCardsByUserIdAsync(Guid userId,
             ISpecification<Card> spec,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default);
 
         Task<List<Card>> GetCardAsync(
             ISpecification<Card> spec,
-            bool includeDetails = true,
             CancellationToken cancellationToken = default);
 
        Task<Card> GetByCardNumberAsync(string cardNo,
-           bool includeDetails = true,
            CancellationToken cancellationToken = default);
     }
 }
