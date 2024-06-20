@@ -1,4 +1,5 @@
-﻿using Aura.LonelySatan.Orders;
+﻿using Aura.LonelySatan.Cards;
+using Aura.LonelySatan.Orders;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -54,6 +55,7 @@ public class LonelySatanDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
     // bussiness
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Card> Cards { get; set; }
     #endregion
 
     public LonelySatanDbContext(DbContextOptions<LonelySatanDbContext> options)
