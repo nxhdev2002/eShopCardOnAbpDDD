@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Volo.Abp.Domain.Values;
 
 namespace Aura.LonelySatan.Cards
@@ -11,7 +12,7 @@ namespace Aura.LonelySatan.Cards
     {
         public string Value { get; }
 
-        public Cvv() { }
+        private Cvv() { }
         public Cvv(string cvv)
         {
             if (cvv.Length != 3)
@@ -19,19 +20,10 @@ namespace Aura.LonelySatan.Cards
             Value = cvv;
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is Cvv other && Value == other.Value;
-        }
-
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
-
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
         }
+
     }
 }

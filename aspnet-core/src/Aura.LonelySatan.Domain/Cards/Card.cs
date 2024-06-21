@@ -13,9 +13,12 @@ namespace Aura.LonelySatan.Cards
 {
     public class Card : AuditedAggregateRoot<Guid>
     {
+        [MaxLength(16)]
         public string CardNumber { get; private set; }
         public DateTime ExpDate { get; private set; }
         public Cvv Cvv { get; private set; }
+
+        [Range(0, double.MaxValue)]
         public decimal? Balance { get; private set; }
         public CardStatus Status { get; private set; }
         public List<CardTransaction> Transactions { get; private set; }
@@ -44,7 +47,7 @@ namespace Aura.LonelySatan.Cards
         {
             if (Status == CardStatus.Active)
             {
-                throw new BusinessException(LonelySatanDomainErrorCodes.CardAlreadyActive);
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardAlreadyActive).WithData(nameof(Card), this);
             }
 
             Status = CardStatus.Active;
@@ -66,12 +69,12 @@ namespace Aura.LonelySatan.Cards
         {
             if (Amount <= 0)
             {
-                throw new BusinessException(LonelySatanDomainErrorCodes.InvalidFundingAmount);
+                throw new BusinessException(LonelySatanDomainErrorCodes.InvalidFundingAmount).WithData(nameof(Amount), Amount);
             }
 
             if (Status == CardStatus.Inactive)
             {
-                throw new BusinessException(LonelySatanDomainErrorCodes.CardIsInActive);
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardIsInActive).WithData(nameof(Card), this);
             }
 
             if (ExpDate < DateTime.UtcNow)

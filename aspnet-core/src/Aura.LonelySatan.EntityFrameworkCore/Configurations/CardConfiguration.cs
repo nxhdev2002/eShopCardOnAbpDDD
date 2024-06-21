@@ -17,7 +17,12 @@ namespace Aura.LonelySatan.Configurations
         {
             b.ToTable("Cards");
             b.ConfigureByConvention(); //auto configure for the base class props
-            b.OwnsOne(o => o.Cvv, a => { a.WithOwner(); });
+            b.OwnsOne(o => o.Cvv, a => { 
+                a.Property(v => v.Value)
+                .IsRequired()
+                .HasColumnName("Cvv")
+                .HasMaxLength(3);
+            });
             //b.OwnsMany(o => o.Transactions, a => { a.WithOwner(); });
 
             b.Property(q => q.Status).HasConversion(new EnumToStringConverter<CardStatus>());

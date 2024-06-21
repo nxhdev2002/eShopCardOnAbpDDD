@@ -3,6 +3,7 @@ using System;
 using Aura.LonelySatan.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Aura.LonelySatan.Migrations
 {
     [DbContext(typeof(LonelySatanDbContext))]
-    partial class LonelySatanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240621043529_add-cvv-column")]
+    partial class addcvvcolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1899,7 +1902,7 @@ namespace Aura.LonelySatan.Migrations
 
             modelBuilder.Entity("Aura.LonelySatan.Cards.Card", b =>
                 {
-                    b.OwnsOne("Aura.LonelySatan.Cards.Card.Cvv#Aura.LonelySatan.Cards.Cvv", "Cvv", b1 =>
+                    b.OwnsOne("Aura.LonelySatan.Cards.Cvv", "Cvv", b1 =>
                         {
                             b1.Property<Guid>("CardId")
                                 .HasColumnType("uuid");
@@ -1912,7 +1915,7 @@ namespace Aura.LonelySatan.Migrations
 
                             b1.HasKey("CardId");
 
-                            b1.ToTable("Cards", (string)null);
+                            b1.ToTable("Cards");
 
                             b1.WithOwner()
                                 .HasForeignKey("CardId");
@@ -1933,7 +1936,7 @@ namespace Aura.LonelySatan.Migrations
 
             modelBuilder.Entity("Aura.LonelySatan.Orders.Order", b =>
                 {
-                    b.OwnsOne("Aura.LonelySatan.Orders.Order.Address#Aura.LonelySatan.Orders.Address", "Address", b1 =>
+                    b.OwnsOne("Aura.LonelySatan.Orders.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uuid");
@@ -1960,13 +1963,13 @@ namespace Aura.LonelySatan.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders", (string)null);
+                            b1.ToTable("Orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.OwnsOne("Aura.LonelySatan.Orders.Order.Customer#Aura.LonelySatan.Orders.Customer", "Customer", b1 =>
+                    b.OwnsOne("Aura.LonelySatan.Orders.Customer", "Customer", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uuid");
@@ -1984,7 +1987,7 @@ namespace Aura.LonelySatan.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders", (string)null);
+                            b1.ToTable("Orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
