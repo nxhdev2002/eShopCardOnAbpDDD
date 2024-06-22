@@ -23,7 +23,6 @@ namespace Aura.LonelySatan.Configurations
                 .HasColumnName("Cvv")
                 .HasMaxLength(3);
             });
-            //b.OwnsMany(o => o.Transactions, a => { a.WithOwner(); });
 
             b.Property(q => q.Status).HasConversion(new EnumToStringConverter<CardStatus>());
         }

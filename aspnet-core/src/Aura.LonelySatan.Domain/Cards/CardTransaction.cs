@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Values;
 
 namespace Aura.LonelySatan.Cards
 {
-    public class CardTransaction : Entity<Guid>
+    public class CardTransaction : FullAuditedEntity<Guid>
     {
         public string Type { get; private set; }
         public string Merchant { get; private set; }

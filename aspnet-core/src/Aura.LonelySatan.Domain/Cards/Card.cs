@@ -21,26 +21,23 @@ namespace Aura.LonelySatan.Cards
         [Range(0, double.MaxValue)]
         public decimal? Balance { get; private set; }
         public CardStatus Status { get; private set; }
-        public List<CardTransaction> Transactions { get; private set; }
+        
+        //public Guid OrderId { get; private set; }
 
         private Card() { }
 
-        internal Card(Guid Id, string cardNumber, DateTime expDate, Cvv cvv) : base(Id)
+        public Card(Guid Id, 
+            string cardNumber, 
+            DateTime expDate, 
+            Cvv cvv,
+            CardStatus status = CardStatus.Unknown
+        ) : base(Id)
         {
             CardNumber = Check.NotNullOrEmpty(cardNumber, nameof(cardNumber));
             ExpDate = expDate;
             Cvv = cvv;
             Balance = 0;
-            Status = CardStatus.Unknown;
-            Transactions = new List<CardTransaction>();
-        }
-
-        public Card AddCardTransaction(Guid id, Guid cardId, string type, string merchant, CardTransactionStatus status, decimal amount, string currency)
-        {
-            var cardTrans = new CardTransaction(id, cardId, type, merchant, status, amount, currency);
-            Transactions.Add(cardTrans);
-
-            return this;
+            Status = status;
         }
 
         public Card SetCardAsActive()
@@ -83,15 +80,6 @@ namespace Aura.LonelySatan.Cards
             }
 
             Balance += Amount;
-            AddCardTransaction(
-                Guid.NewGuid(),
-                Id,
-                "Funding",
-                "Banking",
-                CardTransactionStatus.Accepted,
-                Amount,
-                "USD"
-            );
             return this;
         }
 
@@ -117,22 +105,8 @@ namespace Aura.LonelySatan.Cards
                 throw new BusinessException(LonelySatanDomainErrorCodes.InsufficientFundingAmount);
             }
             Balance -= Amount;
-
-            AddCardTransaction(
-                Guid.NewGuid(),
-                Id,
-                "Spending",
-                "Banking",
-                CardTransactionStatus.Accepted,
-                Amount,
-                "USD"
-            );
             return this;
         }
 
-        public decimal GetTotalSpend()
-        {
-            return Transactions.Sum(x => x.Amount);
-        }
     }
 }

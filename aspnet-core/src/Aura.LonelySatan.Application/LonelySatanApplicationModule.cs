@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Account;
+﻿using Aura.LonelySatan.Commons;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -23,9 +24,11 @@ public class LonelySatanApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<LonelySatanApplicationModule>();
-        });
+        //Configure<AbpAutoMapperOptions>(options =>
+        //{
+        //    options.AddMaps<LonelySatanApplicationModule>();
+        //});
+
+        MappingConfig.ConfigureMappings();
     }
 }
