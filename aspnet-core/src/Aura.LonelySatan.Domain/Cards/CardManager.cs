@@ -31,19 +31,10 @@ namespace Aura.LonelySatan.Cards
             return placedCard;
         }
 
-        public async Task FundingCardAsync(Card card, decimal Amount)
-        {
-            card.FundingCard(Amount);
-            card.AddCardTransaction(
-                GuidGenerator.Create(),
-                card.Id,
-                "Funding",
-                "Bank",
-                CardTransactionStatus.Accepted,
-                Amount,
-                "USD");
 
-            await _cardRepository.UpdateAsync(card, true);
+        public async Task<Card> GetCardDetails(Guid cardId, int otp)
+        {
+            return null;
         }
     }
 }

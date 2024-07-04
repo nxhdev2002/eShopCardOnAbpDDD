@@ -8,4 +8,10 @@ namespace Aura.LonelySatan.Cards.Dto
     {
         public Guid Id { get; set; }
     }
+
+    public class CardGetDetailsInputDto
+    {
+        public Guid Id { get; set; }
+        public int OTP { get; set; }
+    }
 }

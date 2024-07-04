@@ -1,7 +1,7 @@
-﻿using Aura.LonelySatan.Cards;
+﻿using Aura.LonelySatan.Authorization;
+using Aura.LonelySatan.Cards;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +11,12 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Aura.LonelySatan.Configurations
 {
-    public class CardTransactionConfiguration : IEntityTypeConfiguration<CardTransaction>
+    public class UserOtpConfiguration : IEntityTypeConfiguration<UserOtp>
     {
-        public void Configure(EntityTypeBuilder<CardTransaction> builder)
+        public void Configure(EntityTypeBuilder<UserOtp> builder)
         {
-            builder.ToTable("CardTransactions");
+            builder.ToTable("UserOtps");
             builder.ConfigureByConvention();
-            builder.Property<Guid>("CardId").IsRequired();
         }
     }
 }

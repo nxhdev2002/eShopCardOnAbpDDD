@@ -3,6 +3,14 @@
   "texts": {
     "Menu:Home": "Home",
     "Menu:Order": "Order",
+    "Card:00001": "Invalid Funding Amount",
+    "Card:00002": "Invalid Spending Amount",
+    "Card:00003": "Card is InActive",
+    "Card:00004": "Card is Expired",
+    "Card:00005": "Insufficient Funding Amount",
+    "Card:00006": "Card is already active",
+    "Card:00007": "Card is already inactive",
+    "CardNotFound": "Card not found",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
   }

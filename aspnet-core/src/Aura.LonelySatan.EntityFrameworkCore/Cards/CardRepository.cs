@@ -36,13 +36,25 @@ namespace Aura.LonelySatan.Cards
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
-        public async Task<List<Card>> GetCardsByUserIdAsync(Guid userId, ISpecification<Card> spec, CancellationToken cancellationToken = default)
+        public async Task<List<Card>> GetCardsByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return await (await GetDbSetAsync())
                 .Where(q => q.CreatorId == userId)
-                .Where(spec.ToExpression())
+                .Include(x => x.Transactions)
+                //.Where(spec.ToExpression())
                 .OrderByDescending(o => o.CreationTime)
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
+
+        public async Task<Card?> GetCardByUserIdAsync(Guid userId, Guid cardId, CancellationToken cancellationToken = default)
+        {
+            return await (await GetDbSetAsync())
+                .Where(q => q.CreatorId == userId && q.Id == cardId)
+                .Include(x => x.Transactions)
+                //.Where(spec.ToExpression())
+                .OrderByDescending(o => o.CreationTime)
+                .FirstOrDefaultAsync(GetCancellationToken(cancellationToken));
+        }
+
     }
 }

@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Aura.LonelySatan.Migrations
 {
     [DbContext(typeof(LonelySatanDbContext))]
-    [Migration("20240621081310_add-audit-card-transaction")]
-    partial class addauditcardtransaction
+    [Migration("20240624033529_update-card-transactions")]
+    partial class updatecardtransactions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,43 +95,16 @@ namespace Aura.LonelySatan.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreationTime");
 
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CreatorId");
-
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("LastModifierId");
 
                     b.Property<string>("Merchant")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Type")
                         .IsRequired()

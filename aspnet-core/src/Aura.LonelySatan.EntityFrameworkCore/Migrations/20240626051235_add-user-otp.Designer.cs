@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Aura.LonelySatan.Migrations
 {
     [DbContext(typeof(LonelySatanDbContext))]
-    [Migration("20240619122532_add-card-entity")]
-    partial class addcardentity
+    [Migration("20240626051235_add-user-otp")]
+    partial class adduserotp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,17 +27,55 @@ namespace Aura.LonelySatan.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Aura.LonelySatan.Authorization.UserOtp", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("ExpirationTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("Otp")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserOtps", (string)null);
+                });
+
             modelBuilder.Entity("Aura.LonelySatan.Cards.Card", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal?>("Amount")
+                    b.Property<decimal?>("Balance")
                         .HasColumnType("numeric");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -77,6 +115,43 @@ namespace Aura.LonelySatan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cards", (string)null);
+                });
+
+            modelBuilder.Entity("Aura.LonelySatan.Cards.CardTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Merchant")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("CardTransactions", (string)null);
                 });
 
             modelBuilder.Entity("Aura.LonelySatan.Orders.Order", b =>
@@ -1865,57 +1940,29 @@ namespace Aura.LonelySatan.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("Aura.LonelySatan.Authorization.UserOtp", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Aura.LonelySatan.Cards.Card", b =>
                 {
-                    b.OwnsMany("Aura.LonelySatan.Cards.CardTransaction", "Transactions", b1 =>
-                        {
-                            b1.Property<Guid>("CardId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<decimal?>("Amount")
-                                .HasColumnType("numeric");
-
-                            b1.Property<DateTime>("AuthorizedAt")
-                                .HasColumnType("timestamp without time zone");
-
-                            b1.Property<string>("Currency")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Merchant")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Status")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("TransId")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Type")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.HasKey("CardId", "Id");
-
-                            b1.ToTable("CardTransaction");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CardId");
-                        });
-
                     b.OwnsOne("Aura.LonelySatan.Cards.Cvv", "Cvv", b1 =>
                         {
                             b1.Property<Guid>("CardId")
                                 .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("Cvv");
 
                             b1.HasKey("CardId");
 
@@ -1927,8 +1974,15 @@ namespace Aura.LonelySatan.Migrations
 
                     b.Navigation("Cvv")
                         .IsRequired();
+                });
 
-                    b.Navigation("Transactions");
+            modelBuilder.Entity("Aura.LonelySatan.Cards.CardTransaction", b =>
+                {
+                    b.HasOne("Aura.LonelySatan.Cards.Card", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Aura.LonelySatan.Orders.Order", b =>
@@ -2137,6 +2191,11 @@ namespace Aura.LonelySatan.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Aura.LonelySatan.Cards.Card", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

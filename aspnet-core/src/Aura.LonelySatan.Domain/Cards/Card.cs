@@ -21,7 +21,8 @@ namespace Aura.LonelySatan.Cards
         [Range(0, double.MaxValue)]
         public decimal? Balance { get; private set; }
         public CardStatus Status { get; private set; }
-        
+        public List<CardTransaction> Transactions { get; private set; }
+
         //public Guid OrderId { get; private set; }
 
         private Card() { }
@@ -38,6 +39,7 @@ namespace Aura.LonelySatan.Cards
             Cvv = cvv;
             Balance = 0;
             Status = status;
+            Transactions = new List<CardTransaction>();
         }
 
         public Card SetCardAsActive()
@@ -80,6 +82,7 @@ namespace Aura.LonelySatan.Cards
             }
 
             Balance += Amount;
+            AddCardTransaction("Funding", "Bank", CardTransactionStatus.Accepted, Amount, "USD");
             return this;
         }
 
@@ -105,8 +108,29 @@ namespace Aura.LonelySatan.Cards
                 throw new BusinessException(LonelySatanDomainErrorCodes.InsufficientFundingAmount);
             }
             Balance -= Amount;
+            AddCardTransaction("Spending", "Bank", CardTransactionStatus.Accepted, Amount, "USD");
             return this;
         }
 
+        public Card AddCardTransaction(string type, string merchant, CardTransactionStatus status, decimal amount, string currency)
+        {
+            if (Status == CardStatus.Inactive)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardIsInActive);
+            }
+
+            if (ExpDate < DateTime.UtcNow)
+            {
+                throw new BusinessException(LonelySatanDomainErrorCodes.CardIsExpired);
+            }
+            Transactions.Add(new CardTransaction(
+                    type,
+                    merchant,
+                    status,
+                    amount,
+                    currency
+                ));
+            return this;
+        }
     }
 }

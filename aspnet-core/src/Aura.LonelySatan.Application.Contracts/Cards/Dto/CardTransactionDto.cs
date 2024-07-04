@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Volo.Abp.Application.Dtos;
 
 namespace Aura.LonelySatan.Cards.Dto
 {
@@ -11,5 +12,6 @@ namespace Aura.LonelySatan.Cards.Dto
         public CardTransactionStatus Status { get; private set; }
         public decimal Amount { get; private set; }
         public string Currency { get; private set; }
+        public DateTime CreationTime { get; set; }
     }
 }
