@@ -11,6 +11,7 @@
     "Card:00006": "Card is already active",
     "Card:00007": "Card is already inactive",
     "CardNotFound": "Card not found",
+    "InsufficientBalance": "Insufficient Balance",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
   }
