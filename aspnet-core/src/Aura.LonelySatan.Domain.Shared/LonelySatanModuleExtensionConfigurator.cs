@@ -69,5 +69,20 @@ public static class LonelySatanModuleExtensionConfigurator
          * See the documentation for more:
          * https://docs.abp.io/en/abp/latest/Module-Entity-Extensions
          */
+
+        ObjectExtensionManager.Instance.Modules()
+              .ConfigureIdentity(identity =>
+              {
+                  identity.ConfigureUser(user =>
+                  {
+                      user.AddOrUpdateProperty<decimal>( //property type: string
+                          "Balance", //property name
+                          property =>
+                          {
+                              //...other configurations for this property
+                          }
+                      );
+                  });
+              });
     }
 }
