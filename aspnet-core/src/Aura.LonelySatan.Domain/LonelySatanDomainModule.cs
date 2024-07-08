@@ -1,4 +1,4 @@
-﻿using Aura.LonelySatan.MultiTenancy;
+using Aura.LonelySatan.MultiTenancy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.AuditLogging;
@@ -14,6 +14,7 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.Security;
 
 namespace Aura.LonelySatan;
 
@@ -30,7 +31,8 @@ namespace Aura.LonelySatan;
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
-public class LonelySatanDomainModule : AbpModule
+[DependsOn(typeof(AbpSecurityModule))]
+    public class LonelySatanDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

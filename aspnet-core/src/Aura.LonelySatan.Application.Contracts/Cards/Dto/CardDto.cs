@@ -12,7 +12,7 @@ namespace Aura.LonelySatan.Cards.Dto
 
     public class CardDetailsDto : CardDto
     {
-        public DateTime Exp { get; set; }
+        public DateTime ExpDate { get; set; }
         public string Cvv { get; set; }
     }
 }

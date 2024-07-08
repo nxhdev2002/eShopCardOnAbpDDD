@@ -1,4 +1,4 @@
-﻿using Aura.LonelySatan.Localization;
+using Aura.LonelySatan.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -12,6 +12,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Security;
 
 namespace Aura.LonelySatan;
 
@@ -25,7 +26,8 @@ namespace Aura.LonelySatan;
     typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpTenantManagementDomainSharedModule)
     )]
-public class LonelySatanDomainSharedModule : AbpModule
+[DependsOn(typeof(AbpSecurityModule))]
+    public class LonelySatanDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aura.LonelySatan.Cards.Dto
 {
@@ -10,6 +11,7 @@ namespace Aura.LonelySatan.Cards.Dto
     public class CardGetDetailsInputDto
     {
         public Guid Id { get; set; }
-        public int OTP { get; set; }
+        [Required]
+        public string OTP { get; set; }
     }
 }

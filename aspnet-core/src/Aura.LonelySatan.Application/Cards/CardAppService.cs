@@ -12,7 +12,6 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Volo.Abp.Users;
-using static Volo.Abp.Identity.Settings.IdentitySettingNames;
 
 namespace Aura.LonelySatan.Cards
 {
@@ -92,8 +91,9 @@ namespace Aura.LonelySatan.Cards
 
         public async Task<CardDetailsDto> GetDetails(CardGetDetailsInputDto input)
         {
-            //var card = await _cardManager.Get
-            return null;
+            var user = await GetAndCheckIfUserHasValidBalance(0);
+            var card = await _cardManager.GetCardDetails(user, input.Id, input.OTP);
+            return card.Adapt<CardDetailsDto>();
         }
 
         #region Private Methods

@@ -6,14 +6,14 @@ namespace Aura.LonelySatan.Authorization
 {
     public class UserOtp : AggregateRoot<Guid>
     {
-        public IdentityUser User { get; set; }
-        public int Otp { get; set; }
+        public Guid User { get; set; }
+        public string Otp { get; set; }
         public UserOtpType Type { get; set; }
         public DateTime ExpirationTime { get; set; }
 
         private UserOtp() { }
 
-        public UserOtp(IdentityUser user, int otp, UserOtpType type, DateTime expirationTime)
+        public UserOtp(Guid user, string otp, UserOtpType type, DateTime expirationTime)
         {
             User = user;
             Otp = otp;
@@ -21,9 +21,10 @@ namespace Aura.LonelySatan.Authorization
             ExpirationTime = expirationTime;
         }
 
-        public UserOtp SetNewOtp(int otp)
+        public UserOtp SetNewOtp(string otp, DateTime expirationTime)
         {
             Otp = otp;
+            ExpirationTime = expirationTime;
             return this;
         }
     }
