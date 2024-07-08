@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
-using Volo.Abp.Guids;
 
 namespace Aura.LonelySatan.Cards
 {
@@ -27,9 +22,9 @@ namespace Aura.LonelySatan.Cards
 
         private Card() { }
 
-        public Card(Guid Id, 
-            string cardNumber, 
-            DateTime expDate, 
+        public Card(Guid Id,
+            string cardNumber,
+            DateTime expDate,
             Cvv cvv,
             CardStatus status = CardStatus.Unknown
         ) : base(Id)

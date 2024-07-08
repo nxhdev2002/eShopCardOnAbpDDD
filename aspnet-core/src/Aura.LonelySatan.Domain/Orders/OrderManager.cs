@@ -15,8 +15,8 @@ namespace Aura.LonelySatan.Orders
         }
 
         public async Task<Order> CreateOrderAsync(
-                    Guid customer, 
-                    string customerName, string customerEmail, 
+                    Guid customer,
+                    string customerName, string customerEmail,
                     string addressStreet, string addressCity, string addressCountry, string addressZipCode, string addressDescription = null)
         {
             Order order = new Order(

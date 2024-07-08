@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Application.Dtos;
 
 namespace Aura.LonelySatan.Cards.Dto
@@ -12,7 +10,7 @@ namespace Aura.LonelySatan.Cards.Dto
         public CardStatus Status { get; set; }
     }
 
-    public class CardDetailsDto: CardDto
+    public class CardDetailsDto : CardDto
     {
         public DateTime Exp { get; set; }
         public string Cvv { get; set; }

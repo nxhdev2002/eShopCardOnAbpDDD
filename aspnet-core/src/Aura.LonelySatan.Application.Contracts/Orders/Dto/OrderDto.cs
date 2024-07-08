@@ -1,7 +1,5 @@
 ﻿using Aura.LonelySatan.Orders;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Application.Dtos;
 
 namespace Aura.LonelySatan.Satan.Dto

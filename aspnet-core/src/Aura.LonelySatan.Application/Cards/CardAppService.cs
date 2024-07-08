@@ -6,12 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Repositories;
 
 namespace Aura.LonelySatan.Cards
 {
@@ -40,7 +37,7 @@ namespace Aura.LonelySatan.Cards
             var faker = new Faker();
 
             var card = await _cardManager.CreateCardAsync(
-                faker.Finance.CreditCardNumber(CardType.Visa), 
+                faker.Finance.CreditCardNumber(CardType.Visa),
                 DateTime.Now,
                 faker.Finance.CreditCardCvv()
                 );

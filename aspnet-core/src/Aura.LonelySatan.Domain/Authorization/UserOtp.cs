@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
 namespace Aura.LonelySatan.Authorization
@@ -12,7 +7,7 @@ namespace Aura.LonelySatan.Authorization
     public class UserOtp : AggregateRoot<Guid>
     {
         public IdentityUser User { get; set; }
-        public int Otp {  get; set; }
+        public int Otp { get; set; }
         public UserOtpType Type { get; set; }
         public DateTime ExpirationTime { get; set; }
 

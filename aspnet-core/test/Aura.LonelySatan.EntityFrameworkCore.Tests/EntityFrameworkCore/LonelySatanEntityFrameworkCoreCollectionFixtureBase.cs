@@ -1,5 +1,4 @@
-﻿using Aura.LonelySatan.EntityFrameworkCore;
-using Xunit;
+﻿using Xunit;
 
 namespace Aura.LonelySatan.EntityFrameworkCore;
 

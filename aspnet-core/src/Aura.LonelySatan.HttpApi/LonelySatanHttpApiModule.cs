@@ -1,5 +1,5 @@
-﻿using Localization.Resources.AbpUi;
-using Aura.LonelySatan.Localization;
+﻿using Aura.LonelySatan.Localization;
+using Localization.Resources.AbpUi;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;

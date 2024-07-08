@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
@@ -26,7 +25,7 @@ namespace Aura.LonelySatan.Orders
                 .IncludeDetails(includeDetails)
                 .FirstOrDefaultAsync(
                     q => q.OrderNo == orderNo,
-                    cancellationToken: GetCancellationToken(cancellationToken)) 
+                    cancellationToken: GetCancellationToken(cancellationToken))
                 ?? throw new EntityNotFoundException(typeof(Order));
         }
 
